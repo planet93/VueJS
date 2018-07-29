@@ -1,0 +1,67 @@
+﻿<!--Привязка классов https://metanit.com/web/vuejs/1.8.php -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learn Vue.js</title>
+    <meta charset="utf-8" />
+    <style>
+        .region{
+            background-color: #999;
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .active{
+            background-color: red;
+        }
+        .bounded {
+            border: 5px solid green;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .green {
+            background-color: green;
+        }
+        .big {
+            width: 100px;
+            height: 100px;
+        }
+
+        .small {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+@Scripts.Render("~/Scripts/Vue.js")
+<body>
+    <br />
+    <div id="app">
+        <div class="region" v-bind:class="[color, {bounded: isBounded}, size]" v-on:click="isBounded=!isBounded"></div>
+        <input type="text" v-model="color" />
+        <input type="text" v-model="size" />
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                color: "red",
+                size: "small",
+                isBounded: false
+            }
+        });
+    </script>
+</body>
+</html>
