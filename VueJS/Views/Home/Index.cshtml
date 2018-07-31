@@ -47,21 +47,25 @@
 @Scripts.Render("~/Scripts/Vue.js")
 <body>
     <br />
-    <div id="app">
-        <div class="region" v-bind:class="[color, {bounded: isBounded}, size]" v-on:click="isBounded=!isBounded"></div>
-        <input type="text" v-model="color" />
-        <input type="text" v-model="size" />
+    <div id="app1">
+        <input type="text" v-model="name" />
+        <input type="number" v-model="age" />
+        <p>{{name}} - {{age}} - {{position}}</p>
     </div>
 
     <script>
-        var app = new Vue({
-            el: '#app',
-            data: {
-                color: "red",
-                size: "small",
-                isBounded: false
-            }
+        var vm1 = new Vue({
+            el: '#app1',
+            data: { name: 'Tom', age: 34, position: "admin" }
         });
+        // определение нового метода
+        vm1.setAge = function (value) {
+            vm1.age = value;
+            Console.log(value)
+        }
+        setTimeout(function () {
+            vm1.position = "moderator";
+        }, 3000);
     </script>
 </body>
 </html>
