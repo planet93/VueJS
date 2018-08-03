@@ -1,34 +1,57 @@
-﻿<!-- Директива v-show https://metanit.com/web/vuejs/2.2.php -->
+﻿<!-- v-for https://metanit.com/web/vuejs/2.3.php -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Learn Vue.js</title>
     <meta charset="utf-8" />
+    <style>
 
+    </style>
 </head>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Scripts/Vue.js")
 <body>
     <br />
     <div id="app">
-        <ul>
-            <li v-for="(num, index) in nums">[{{index+1}}] === {{num.value}} -- {{num.name}}
-            <br />
-            <p v-for="(value,key) in num">Property name - {{key}}; Value - {{value}}</p>
-            </li>
-        </ul>
+        
     </div>
 
     <script>
         var vm1 = new Vue({
             el: "#app",
             data: {
-                nums: [
-                    {value:1,name:'One'},
-                    { value:2, name:'Two'},
-                    { value:3, name:'Three'}
-                ]
+             
             }
         });
+
+
+        var mas_for_data = [];
+
+        var js_date = ['03.07', '04.03', '01.02'];
+        var js_oc = ['android', 'ios', 'microsogt'];
+
+        //Если объявить перед циклом, то всего один объект
+        var mas1 = { device: "", geek: "" };
+
+        console.log("Object mas1");
+        for (var i = 0; i < js_oc.length; i++) {
+            mas1.device = js_oc[i];
+            mas1.geek = js_date[i];
+            mas_for_data[i] = mas1;
+            console.log(mas1);
+        }
+
+        console.log("Object mas2");
+        //Если в цикле, то три объекта
+        for (var i = 0; i < js_oc.length; i++) {
+            var mas2 = { device: "", geek: "" };
+            mas2.device = js_oc[i];
+            mas2.geek = js_date[i];
+            mas_for_data[i] = mas2;
+            console.log(mas2);
+        }
+
     </script>
 </body>
 </html>
