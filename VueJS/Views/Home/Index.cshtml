@@ -1,4 +1,4 @@
-﻿<!-- Модификаторы https://metanit.com/web/vuejs/3.5.php -->
+﻿<!-- Props https://metanit.com/web/vuejs/4.5.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,22 +18,35 @@
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/Scripts/Vue.js")
 <body>
-    <br />
-    <div id="app" class="col-md-4">
-
-        <input type="text" v-model.lazy="name" class="form-control" />
-        <span>Input: {{name}}</span>
+    <div id="app">
         <br />
-        <input v-model.lazy.number="age" type="number" />
-        <span>Input age: {{age}}</span>
+        <counter></counter>
+        <counter></counter>
     </div>
 
+
     <script>
-        var vm1 = new Vue({
-            el: "#app",
-            data: {
-                age: 0
+        var data = {
+            header: 'Counter Program',
+            count: 0
+        };
+        Vue.component('counter', {
+            data: function () {
+                return data
+            },
+            template: `<div><h2>{{header}}</h2>
+                 <button v-on:click="increase">- </button>
+                <button v-on:click="increase">+</button>
+                <span>{{count}}</span>
+            </div>`,
+            methods: {
+                increase: function () {
+                    this.count++;
+                }
             }
+        });
+        new Vue({
+            el: "#app"
         });
     </script>
 </body>
