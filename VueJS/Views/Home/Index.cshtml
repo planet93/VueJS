@@ -1,4 +1,4 @@
-﻿<!-- Передача функций обратного вызова в компоненты https://metanit.com/web/vuejs/4.13.php -->
+﻿<!-- Миксины https://metanit.com/web/vuejs/4.14.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,57 +24,51 @@
 <body>
     <div id="app">
         <br />
-        <h2>Список пользователей</h2>
-        <userform :addfn="add"></userform>
-        <div>
-            <useritem v-for="(user, index) in users"
-                      :user="user"
-                      :key="index"
-                      :index="index"
-                      :removefn="remove">
-            </useritem>
-        </div>
+        <h2>Миксины</h2>
+        <light></light>
+        <enabled></enabled>
     </div>
 
 
+
     <script>
-        Vue.component('userform', {
-            props: ['addfn'],
+        var toggleMixin = {
             data: function () {
-                return {
-                    user: {name:'',age:18}
-                }
-            },
-            template: `<div>
-                            <input type="text" v-model="user.name"/>
-                            <input type="number" v-model="user.age"/>
-                            <button v-on:click="addfn({name:user.name, age: user.age})">Add</button>
-                    </div>`
-        });
-        Vue.component('useritem', {
-            props: ["user", "index", "removefn"],
-            template: `<div>
-                    <p>Name: {{user.name}} <br> Age: {{user.age}}</p>
-                    <button  v-on:click="removefn(index)">Delete</button>
-                </div>`
-        });
-        new Vue({
-            el: "#app",
-            data: {
-                users: [
-                    { name: 'Tom', age: 23 },
-                    { name: 'Bob', age: 26 },
-                    { name: 'Alice', age: 28 }
-                ]
+                return { state: true, on: "ON", off: "OFF" }
             },
             methods: {
-                remove: function (index) {
-                    this.users.splice(index, 1);
-                },
-                add: function (user) {
-                    this.users.push(user);
+                toggle: function () {
+                    this.state = !this.state;
                 }
+            },
+            created() {
+                console.log("Mixin has been created");
+                this.$options.template = `<div>` + this.$options.template +
+                    `<button v-on:click="toggle" v-show="state">{{on}}</button>
+                        <button v-on:click="toggle" v-show="!state">{{off}}</button></div>`
             }
+        };
+        Vue.component('light', {
+            template:`<h3>{{header}}</h3>`,
+            mixins: [toggleMixin],
+            computed: {
+                header() {
+                    return this.state == true ? "Свет включен" : "Свет выключен";
+                }
+            },
+            created() {
+                console.log("Light component has been created");
+            }
+        });
+        Vue.component('enabled', {
+            template: `On function`,
+            mixins: [toggleMixin],
+            created() {
+                console.log("enabled created");
+            }
+        });
+        new Vue({
+            el: "#app"
         });
     </script>
 </body>
