@@ -1,4 +1,4 @@
-﻿<!-- Миксины https://metanit.com/web/vuejs/4.14.php -->
+﻿<!-- Слоты с ограниченной областью видимости https://metanit.com/web/vuejs/5.3.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,12 @@
         .userdetails {
             border-bottom: 1px solid #888;
         }
+
+        .user {
+            font-size: 14px;
+            font-family: Verdana;
+            padding: 6px;
+        }
     </style>
 </head>
 @Scripts.Render("~/bundles/jquery")
@@ -24,51 +30,29 @@
 <body>
     <div id="app">
         <br />
-        <h2>Миксины</h2>
-        <light></light>
-        <enabled></enabled>
+        <h2>Slots in Vue.js</h2>
+        <userlist :users="users">
+            <li slot-scope="props" class="user">
+                {{props.username}}
+            </li>
+        </userlist>
+
     </div>
 
 
 
     <script>
-        var toggleMixin = {
-            data: function () {
-                return { state: true, on: "ON", off: "OFF" }
-            },
-            methods: {
-                toggle: function () {
-                    this.state = !this.state;
-                }
-            },
-            created() {
-                console.log("Mixin has been created");
-                this.$options.template = `<div>` + this.$options.template +
-                    `<button v-on:click="toggle" v-show="state">{{on}}</button>
-                        <button v-on:click="toggle" v-show="!state">{{off}}</button></div>`
-            }
-        };
-        Vue.component('light', {
-            template:`<h3>{{header}}</h3>`,
-            mixins: [toggleMixin],
-            computed: {
-                header() {
-                    return this.state == true ? "Свет включен" : "Свет выключен";
-                }
-            },
-            created() {
-                console.log("Light component has been created");
-            }
-        });
-        Vue.component('enabled', {
-            template: `On function`,
-            mixins: [toggleMixin],
-            created() {
-                console.log("enabled created");
-            }
+        Vue.component('userlist', {
+            props: ["users"],
+            template: ` <ul>
+                                   <slot v-for="user in users" :username="user"></slot>
+                               </ul>`
         });
         new Vue({
-            el: "#app"
+            el: '#app',
+            data: {
+                users: ['Toma', 'Sasha', 'Kasha']
+            }
         });
     </script>
 </body>
