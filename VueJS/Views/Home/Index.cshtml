@@ -1,4 +1,4 @@
-﻿<!-- Слоты с ограниченной областью видимости https://metanit.com/web/vuejs/5.3.php -->
+﻿<!--Закончил на Vue-cli https://metanit.com/web/vuejs/7.3.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,31 +29,24 @@
 @Scripts.Render("~/Scripts/Vue.js")
 <body>
     <div id="app">
-        <br />
-        <h2>Slots in Vue.js</h2>
-        <userlist :users="users">
-            <li slot-scope="props" class="user">
-                {{props.username}}
-            </li>
-        </userlist>
+        {{message | capitalize}}
 
     </div>
 
 
-
     <script>
-        Vue.component('userlist', {
-            props: ["users"],
-            template: ` <ul>
-                                   <slot v-for="user in users" :username="user"></slot>
-                               </ul>`
+        Vue.filter('capitalize', function (value) {
+            var capitalFirst = value.charAt(0).toUpperCase();
+            var noCaseTail = value.slice(1, value.lenght)
+            return capitalFirst + noCaseTail;
         });
-        new Vue({
+
+        var vue = new Vue({
             el: '#app',
             data: {
-                users: ['Toma', 'Sasha', 'Kasha']
+                message: "hello word!"
             }
-        });
+        })
     </script>
 </body>
 </html>
